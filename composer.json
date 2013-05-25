@@ -1,0 +1,42 @@
+{
+	"name": "evandotpro/cardsagainsthumanity",
+	"description": "Cards Against Humanity game",
+	"keywords": [
+		"framework",
+		"zf2"
+	],
+	"repositories": [
+		{
+			"type": "package",
+			"package": {
+				"name": "evandotpro/edpcards",
+				"description": "Cards Against Humanity Module",
+				"version": "master",
+				"type": "library",
+				"source": {
+					"type": "git",
+					"url": "git://github.com/EvanDotPro/EdpCards.git",
+					"reference": "master"
+				},
+				"extra": {
+					"installer-name": "EdpCards"
+				}
+			}
+		}
+	],
+	"require": {
+		"php": ">=5.3.3",
+		"zendframework/zendframework": "2.2.*",
+		"zf-commons/zfc-base": "dev-master",
+		"zf-commons/zfc-twig": "dev-master",
+		"evandotpro/edpcards": "dev-master"
+	},
+	"autoload": {
+		"psr-0": {
+			"EdpCards": "src/"
+		},
+		"classmap": [
+			"./vendor/evandotpro/edpcards/Module.php"
+		]
+	}
+}
