@@ -29,6 +29,19 @@ return array(
 						'action'	 => 'index',
 					),
 				),
+				'may_terminate' => true,
+				'child_routes' => array(
+					'game' => array(
+						'type' => 'Segment',
+						'may_terminate' => true,
+						'options' => array(
+							'route' => '/game/:game_id',
+							'defaults' => array(
+								'action' => 'game'
+							)
+						)
+					)
+				)
 			),
 			// The following is a route to simplify getting started creating
 			// new controllers and actions without needing to create a new

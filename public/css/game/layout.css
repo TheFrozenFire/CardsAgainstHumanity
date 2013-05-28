@@ -1,6 +1,9 @@
 .game-controls {
 	height: 10%;
 }
+.game-controls h2 {
+	margin: 0px;
+}
 
 .game-list {
 	width: 100%;

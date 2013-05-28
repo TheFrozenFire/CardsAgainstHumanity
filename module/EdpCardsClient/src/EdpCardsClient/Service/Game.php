@@ -13,6 +13,12 @@ class Game implements SM\ServiceLocatorAwareInterface {
 		return $this->getGameMapper()->getList();
 	}
 	
+	public function get($id) {
+		$id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
+	
+		return $this->getGameMapper()->get($id);
+	}
+	
 	public function getGameMapper() {
 		if(!$this->gameMapper) {
 			$this->gameMapper = $this->getServiceLocator()->get('edpcardsclient_gamemapper');
