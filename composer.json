@@ -17,19 +17,16 @@
 					"type": "git",
 					"url": "git://github.com/EvanDotPro/EdpCards.git",
 					"reference": "master"
-				},
-				"extra": {
-					"installer-name": "EdpCards"
 				}
 			}
 		}
 	],
 	"require": {
 		"php": ">=5.3.3",
-		"zendframework/zendframework": "2.2.*",
-		"zf-commons/zfc-base": "dev-master",
-		"zf-commons/zfc-twig": "dev-master",
-		"evandotpro/edpcards": "dev-master"
+		"zendframework/zendframework": "@stable",
+		"zf-commons/zfc-base": "@stable",
+		"evandotpro/edpcards": "@dev",
+		"zf-commons/zfc-twig": "@stable"
 	},
 	"autoload": {
 		"psr-0": {

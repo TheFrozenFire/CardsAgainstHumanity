@@ -12,5 +12,5 @@
  */
 
 return array(
-    // ...
+	'edpcardsclient_service_url' => "http://cah.dev/api"
 );

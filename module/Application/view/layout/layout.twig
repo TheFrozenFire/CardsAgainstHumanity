@@ -1,0 +1,42 @@
+{{ docType() }}
+<html lang="en">
+	<head>
+		<base href="/">
+		<meta charset="utf-8">
+		<title>
+			{% block title %}{% endblock title %} Cards Against Humanity
+		</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		{% block meta %}{% endblock meta %}
+		
+		{% block stylesheets %}
+			<link rel="stylesheet" type="text/css" href="css/normalize.css">
+			<link rel="stylesheet" type="text/css" href="css/layout.css">
+			<link rel="stylesheet" type="text/css" href="css/structure.css">
+			<link rel="stylesheet" type="text/css" href="css/typography.css">
+		{% endblock %}
+	</head>
+	<body>
+		<div class="wrap">
+			<div class="container">
+				<!-- content|raw is required for phtml fallback -->
+				{% block content %}{{ content|raw }}{% endblock content %}
+			</div>
+			<div class="right-bar">
+				<div class="information">
+					<h1>Cards Against Humanity</h1>
+					<!-- Information -->
+				</div>
+				<ul class="players">
+					{% for player in players %}
+						<li>
+							
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+		{% block inline %}{% endblock inline %}
+	</body>
+</html>

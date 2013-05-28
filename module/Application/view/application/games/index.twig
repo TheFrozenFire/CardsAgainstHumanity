@@ -1,0 +1,29 @@
+{% extends 'layout/layout.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	
+	<link rel="stylesheet" type="text/css" href="css/game/layout.css">
+	<link rel="stylesheet" type="text/css" href="css/game/structure.css">
+{% endblock %}
+
+{% block content %}
+	<div class="game-controls">
+		
+	</div>
+	{% if games|length > 0 %}
+		<ul class="game-list">
+			{% for game in games %}
+				<li data-game-id="{{ game.id }}">
+					<a href="{{ url("games") }}/game/{{ game.id }}"></a>
+					<div class="name">{{ game.name }}</div>
+					<div class="players">Players: {{ game.players }}</div>
+				</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<div class="game-list no-games">
+			No games in session
+		</div>
+	{% endif %}
+{% endblock content %}

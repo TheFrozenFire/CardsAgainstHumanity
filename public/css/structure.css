@@ -1,0 +1,9 @@
+.right-bar .information {
+	border-left: 2px solid #666;
+	border-bottom: 2px solid #666;
+	border-bottom-left-radius: 10px;
+}
+
+.right-bar .players > li:nth-child(2n) {
+	background-color: #EEE;
+}

@@ -1,0 +1,8 @@
+.game-controls {
+	border-bottom: 2px solid #666;
+}
+
+.game-list > li {
+	border: 2px solid #666;
+	border-radius: 10px;
+}
