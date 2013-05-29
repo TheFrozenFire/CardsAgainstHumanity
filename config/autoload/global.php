@@ -12,5 +12,5 @@
  */
 
 return array(
-	'edpcardsclient_service_url' => "http://cards.evan.pro/api"
+	'edpcardsclient_service_url' => "http://cards.evan.pro/api",
 );

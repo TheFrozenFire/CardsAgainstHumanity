@@ -4,6 +4,7 @@ namespace EdpCardsClient\Mapper;
 use Zend\ServiceManager as SM;
 use Zend\EventManager as EM;
 use Zend\Http;
+use Zend\Stdlib\Hydrator\Filter;
 
 use EdpCards\Entity;
 
@@ -18,9 +19,9 @@ class Player implements SM\ServiceLocatorAwareInterface {
 		
 		$list = array();
 		
-		$gydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
+		$hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
 		foreach($players as $player) {
-			$list[] = $gydrator->hydrate($Player, new Entity\Player);
+			$list[] = $hydrator->hydrate($Player, new Entity\Player);
 		}
 		
 		return $list;
@@ -36,51 +37,45 @@ class Player implements SM\ServiceLocatorAwareInterface {
 		if(!$response->isOk())
 			return false;
 		
-		$gydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
+		$hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
 		
 		$player = json_decode($response->getBody(), true);
-		$player = $gydrator->hydrate($player[0], new Entity\Player);
+		$player = $hydrator->hydrate($player[0], new Entity\Player);
 		
 		return $player;
 	}
 	
-	public function create($email, $display_name) {
+	public function create(Entity\Player $player) {
+		$hydrator = $this->getHydrator();
+	
 		$api = $this->getHttpClient();
-		$api->setUri($api->getUri()."/create")
+		$api->setMethod("POST")
+			->setParameterPost($hydrator->extract($player));
+		
+		$response = $api->send();
+		if(!$response->isSuccess())
+			return false;
+		
+		$player = json_decode($response->getBody(), true);
+		$player = $hydrator->hydrate($player, new Entity\Player);
+		
+		return $player;
+	}
+	
+	public function update(Entity\Player $player) {
+		$hydrator = $this->getHydrator();
+	
+		$api = $this->getHttpClient();
+		$api->setUri($api->getUri()."/{$player->id}")
 			->setMethod("POST")
-			->setParameterPost(array(
-				"email" => $email,
-				"display_name" => $diplay_name
-			));
+			->setParameterPost($hydrator->extract($player));
 		
 		$response = $api->send();
 		if(!$response->isOk())
 			return false;
 		
-		$gydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
-		
 		$player = json_decode($response->getBody(), true);
-		$player = $gydrator->hydrate($player[0], new Entity\Player);
-		
-		return $player;
-	}
-	
-	public function update($id, $data) {
-		$id = urlencode($id);
-	
-		$api = $this->getHttpClient();
-		$api->setUri($api->getUri()."/{$id}")
-			->setMethod("POST")
-			->setParameterPost($data);
-		
-		$response = $api->send();
-		if(!$response->isOk())
-			return false;
-		
-		$gydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
-		
-		$player = json_decode($response->getBody(), true);
-		$player = $gydrator->hydrate($player[0], new Entity\Player);
+		$player = $hydrator->hydrate($player[0], new Entity\Player);
 		
 		return $player;
 	}
@@ -100,6 +95,7 @@ class Player implements SM\ServiceLocatorAwareInterface {
 	public function getHttpClient() {
 		if(!$this->httpClient) {
 			$this->httpClient = $this->getServiceLocator()->get('edpcardsclient_httpclient');
+			$this->httpClient->setUri($this->httpClient->getUri().'players/');
 		}
 		
 		return clone $this->httpClient;
@@ -107,5 +103,13 @@ class Player implements SM\ServiceLocatorAwareInterface {
 	
 	public function setHttpClient(\Zend\Http\Client $client) {
 		$this->httpClient = $client;
+	}
+	
+	public function getHydrator() {
+		$hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
+		$hydrator->addFilter('getId', new Filter\MethodMatchFilter('getId'), Filter\FilterComposite::CONDITION_AND);
+		$hydrator->addFilter('getPoints', new Filter\MethodMatchFilter('getPoints'), Filter\FilterComposite::CONDITION_AND);
+
+		return $hydrator;
 	}
 }

@@ -23,9 +23,9 @@ class Game implements SM\ServiceLocatorAwareInterface {
 		
 		$list = array();
 		
-		$gydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
+		$hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
 		foreach($games as $game) {
-			$list[] = $gydrator->hydrate($game, new Entity\Game);
+			$list[] = $hydrator->hydrate($game, new Entity\Game);
 		}
 		
 		return $list;
@@ -41,52 +41,46 @@ class Game implements SM\ServiceLocatorAwareInterface {
 		if(!$response->isOk())
 			return false;
 		
-		$gydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
+		$hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
 		
 		$game = json_decode($response->getBody(), true);
-		$game = $gydrator->hydrate($game[0], new Entity\Game);
+		$game = $hydrator->hydrate($game[0], new Entity\Game);
 		
 		return $game;
 	}
 	
-	public function create($name, $decks, $player_id) {
+	public function create(Entity\Game $game) {
+		$hydrator = $this->getHydrator();
+	
 		$api = $this->getHttpClient();
 		$api->setUri($api->getUri()."/create")
 			->setMethod("POST")
-			->setParameterPost(array(
-				"name" => $name,
-				"decks" => $decks,
-				"player_id" => $player_id
-			));
+			->setParameterPost($hydrator->extract($game));
 		
 		$response = $api->send();
 		if(!$response->isOk())
 			return false;
 		
-		$gydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
-		
 		$game = json_decode($response->getBody(), true);
-		$game = $gydrator->hydrate($game[0], new Entity\Game);
+		$game = $hydrator->hydrate($game[0], new Entity\Game);
 		
 		return $game;
 	}
 	
-	public function update($id, $data) {
-		$id = urlencode($id);
+	public function update(Entity\Game $game) {
+		$hydrator = $this->getHydrator();
 	
 		$api = $this->getHttpClient();
-		$api->setUri($api->getUri()."/{$id}")
+		$api->setUri($api->getUri()."/{$game->id}")
 			->setMethod("POST")
-			->setParameterPost($data);
+			->setParameterPost($hydrator->extract($game));
 		
 		$response = $api->send();
 		if(!$response->isOk())
 			return false;
 		
-		$gydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
-		
 		$game = json_decode($response->getBody(), true);
-		$game = $gydrator->hydrate($game[0], new Entity\Game);
+		$game = $hydrator->hydrate($game[0], new Entity\Game);
 		
 		return $game;
 	}
@@ -106,6 +100,7 @@ class Game implements SM\ServiceLocatorAwareInterface {
 	public function getHttpClient() {
 		if(!$this->httpClient) {
 			$this->httpClient = $this->getServiceLocator()->get('edpcardsclient_httpclient');
+			$this->httpClient->setUri($this->httpClient->getUri().'games/');
 		}
 		
 		return clone $this->httpClient;
@@ -113,5 +108,14 @@ class Game implements SM\ServiceLocatorAwareInterface {
 	
 	public function setHttpClient(\Zend\Http\Client $client) {
 		$this->httpClient = $client;
+	}
+	
+	public function getHydrator() {
+		$hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
+		$hydrator->addFilter('getId', new MethodMatchFilter('getId'), FilterComposite::CONDITION_AND);
+		$hydrator->addFilter('getPlayers', new MethodMatchFilter('getPlayers'), FilterComposite::CONDITION_AND);
+		$hydrator->addFilter('getPlayerCount', new MethodMatchFilter('getPlayerCount'), FilterComposite::CONDITION_AND);
+		
+		return $hydrator;
 	}
 }

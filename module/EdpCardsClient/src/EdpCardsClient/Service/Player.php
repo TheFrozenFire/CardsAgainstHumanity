@@ -4,6 +4,8 @@ namespace EdpCardsClient\Service;
 use Zend\ServiceManager as SM;
 use Zend\EventManager as EM;
 
+use EdpCards\Entity;
+
 class Player implements SM\ServiceLocatorAwareInterface {
 	use SM\ServiceLocatorAwareTrait;
 	
@@ -19,20 +21,12 @@ class Player implements SM\ServiceLocatorAwareInterface {
 		return $this->getPlayerMapper()->get($id);
 	}
 	
-	public function create($email, $display_name) {
-		$email = filter_var($email, FILTER_SANITIZE_EMAIL);
-		$display_name = filter_var($display_name, FILTER_SANITIZE_NUMBER_INT);
-		
-		return $this->getPlayerMapper()->create($email, $display_name);
+	public function create(Entity\Player $player) {
+		return $this->getPlayerMapper()->create($player);
 	}
 	
-	public function update($id, $data) {
-		$id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
-		$data = filter_var_array($data, array(
-			
-		));
-		
-		return $this->getPlayerMapper()->update($id, $data);
+	public function update(Entity\Player $player) {
+		return $this->getPlayerMapper()->update($player);
 	}
 	
 	public function delete($id) {

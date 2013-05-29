@@ -9,7 +9,30 @@
 
 {% block content %}
 	<div class="game-controls">
-		
+		{% if not player %}
+			{% set loginForm = loginForm.prepare().setAttribute('method', 'post').setAttribute('action', url('login')) %}
+			{% set email = loginForm.get('email') %}
+			{% set displayName = loginForm.get('displayName') %}
+			{% set submit = loginForm.get('submit') %}
+			{{ form().openTag(loginForm)|raw }}
+				{% block backurl %}<input type="hidden" name="backurl" value="{{ url('games') }}">{% endblock backurl %}
+				<div>
+					{{ formLabel(email)|raw }}
+					{{ formEmail(email)|raw }}
+					{{ formElementErrors(email)|raw }}
+				</div>
+				<div>
+					{{ formLabel(displayName)|raw }}
+					{{ formText(displayName)|raw }}
+					{{ formElementErrors(displayName)|raw }}
+				</div>
+				<div>
+					{{ formButton(submit, 'Login')|raw }}
+				</div>
+			{{ form().closeTag()|raw }}
+		{% else %}
+			{{ dump(player) }}
+		{% endif %}
 	</div>
 	{% if games|length > 0 %}
 		<ul class="game-list">
