@@ -70,6 +70,9 @@ class Game implements SM\ServiceLocatorAwareInterface {
 			return false;
 		
 		$game = json_decode($response->getBody(), true);
+		if(!$game)
+			return false;
+		
 		$game = $hydrator->hydrate($game, new Entity\Game);
 		
 		return $game;
