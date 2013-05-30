@@ -128,7 +128,7 @@ class Games extends AbstractActionController {
 		
 		$decks = array();
 		if($gameService = $this->serviceLocator->get('edpcardsclient_gameservice')) {
-			foreach($gameService->getDecks() as $deck) {
+			foreach($gameService->getDecks()?:array() as $deck) {
 				$decks[$deck->id] = $deck->description;
 			}
 		}

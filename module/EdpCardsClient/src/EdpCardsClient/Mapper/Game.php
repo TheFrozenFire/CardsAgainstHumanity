@@ -20,6 +20,8 @@ class Game implements SM\ServiceLocatorAwareInterface {
 			return false;
 		
 		$games = json_decode($response->getBody(), true);
+		if(!$games)
+			return array();
 		
 		$list = array();
 		
