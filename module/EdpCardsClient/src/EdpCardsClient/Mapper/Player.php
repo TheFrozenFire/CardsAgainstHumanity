@@ -17,11 +17,16 @@ class Player implements SM\ServiceLocatorAwareInterface {
 		$api = $this->getHttpClient();
 		$players = json_decode($api->send()->getBody(), true);
 		
+		if(!$players)
+			return false;
+		elseif(!is_array($players))
+			$players = array($players);
+		
 		$list = array();
 		
 		$hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
 		foreach($players as $player) {
-			$list[] = $hydrator->hydrate($Player, new Entity\Player);
+			$list[] = $hydrator->hydrate($player, new Entity\Player);
 		}
 		
 		return $list;

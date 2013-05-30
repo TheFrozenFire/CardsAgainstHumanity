@@ -7,13 +7,13 @@ class Login extends Form\Form {
 	public function __construct() {
 		parent::__construct();
 		
-		$this->add($email = new Form\Element\Email("email"));
+		$fields = new Form\Fieldset('fields');
+		$this->add($fields);
+		
+		$fields->add($email = new Form\Element\Email("email"));
 		$email->setLabel("Email Address");
 		
-		$this->add($displayName = new Form\Element\Text("displayName"));
+		$fields->add($displayName = new Form\Element\Text("displayName"));
 		$displayName->setLabel("Display Name");
-		
-		$this->add($login = new Form\Element\Button("submit"));
-		$login->setAttribute("type", "submit");
 	}
 }

@@ -49,13 +49,18 @@ class Game implements SM\ServiceLocatorAwareInterface {
 		return $game;
 	}
 	
-	public function create(Entity\Game $game) {
+	public function create(Entity\Game $game, Entity\Player $player) {
 		$hydrator = $this->getHydrator();
 	
 		$api = $this->getHttpClient();
 		$api->setUri($api->getUri()."/create")
 			->setMethod("POST")
-			->setParameterPost($hydrator->extract($game));
+			->setParameterPost(array_merge(
+				$hydrator->extract($game),
+				array(
+					"player_id" => $player->id
+				)
+			));
 		
 		$response = $api->send();
 		if(!$response->isOk())

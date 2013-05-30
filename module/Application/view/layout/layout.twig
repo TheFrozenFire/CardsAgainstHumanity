@@ -28,7 +28,25 @@
 			<div class="right-bar">
 				<div class="information">
 					<h1>Cards Against Humanity</h1>
-					<!-- Information -->
+					{% if not player %}
+						<strong>Log In</strong>
+						{% set loginForm = loginForm.prepare().setAttribute('method', 'post').setAttribute('action', url('login')) %}
+						{{ form().openTag(loginForm)|raw }}
+							{% block backurl %}<input type="hidden" name="backurl" value="{{ url('games') }}">{% endblock backurl %}
+							<fieldset>
+								{% for field in loginForm.get('fields') %}
+									<div class="field">
+										{{ formRow(field) }}
+									</div>
+								{% endfor %}
+							</fieldset>
+							<div class="actions">
+								<button type="submit">Login</button>
+							</div>
+						{{ form().closeTag()|raw }}
+					{% else %}
+						{{ dump(player) }}
+					{% endif %}
 				</div>
 				<ul class="players">
 					{% for player in players %}

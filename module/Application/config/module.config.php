@@ -40,6 +40,16 @@ return array(
 								'action' => 'game'
 							)
 						)
+					),
+					'create' => array(
+						'type' => 'Literal',
+						'may_terminate' => true,
+						'options' => array(
+							'route' => '/game/create',
+							'defaults' => array(
+								'action' => 'create'
+							)
+						)
 					)
 				)
 			),
