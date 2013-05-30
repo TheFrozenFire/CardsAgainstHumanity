@@ -42,3 +42,7 @@ body {
 	display: block;
 	min-height: 30px;
 }
+
+form fieldset .field {
+	padding: 5px 0px;
+}

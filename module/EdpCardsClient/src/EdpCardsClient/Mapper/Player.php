@@ -39,7 +39,7 @@ class Player implements SM\ServiceLocatorAwareInterface {
 		$api->setUri($api->getUri()."/{$id}");
 		
 		$response = $api->send();
-		if(!$response->isOk())
+		if(!$response->isSuccess())
 			return false;
 		
 		$hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
@@ -76,7 +76,7 @@ class Player implements SM\ServiceLocatorAwareInterface {
 			->setParameterPost($hydrator->extract($player));
 		
 		$response = $api->send();
-		if(!$response->isOk())
+		if(!$response->isSuccess())
 			return false;
 		
 		$player = json_decode($response->getBody(), true);
@@ -91,7 +91,7 @@ class Player implements SM\ServiceLocatorAwareInterface {
 			->setMethod("DELETE");
 		
 		$response = $api->send();
-		if(!$response->isOk())
+		if(!$response->isSuccess())
 			return false;
 		
 		return true;

@@ -11,13 +11,13 @@ class CreateGame extends Form\Form {
 		$this->add($fields);
 		
 		$fields->add($name = new Form\Element\Text("name"));
+		$name->setAttribute("id", "name");
 		$name->setLabel("Name");
 		
 		$fields->add($decks = new Form\Element\Select("decks"));
+		$decks->setAttribute("id", "decks");
 		$decks->setLabel("Decks");
 		$decks->setAttribute("multiple", true);
-		
-		$this->add($login = new Form\Element\Button("submit"));
-		$login->setAttribute("type", "submit");
+		$decks->setEmptyOption(null);
 	}
 }

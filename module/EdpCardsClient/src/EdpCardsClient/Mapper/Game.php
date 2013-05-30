@@ -16,7 +16,7 @@ class Game implements SM\ServiceLocatorAwareInterface {
 		$api = $this->getHttpClient();
 		
 		$response = $api->send();
-		if(!$response->isOk())
+		if(!$response->isSuccess())
 			return false;
 		
 		$games = json_decode($response->getBody(), true);
@@ -38,7 +38,7 @@ class Game implements SM\ServiceLocatorAwareInterface {
 		$api->setUri($api->getUri()."/{$id}");
 		
 		$response = $api->send();
-		if(!$response->isOk())
+		if(!$response->isSuccess())
 			return false;
 		
 		$hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
@@ -63,7 +63,7 @@ class Game implements SM\ServiceLocatorAwareInterface {
 			));
 		
 		$response = $api->send();
-		if(!$response->isOk())
+		if(!$response->isSuccess())
 			return false;
 		
 		$game = json_decode($response->getBody(), true);
@@ -81,7 +81,7 @@ class Game implements SM\ServiceLocatorAwareInterface {
 			->setParameterPost($hydrator->extract($game));
 		
 		$response = $api->send();
-		if(!$response->isOk())
+		if(!$response->isSuccess())
 			return false;
 		
 		$game = json_decode($response->getBody(), true);
@@ -96,10 +96,21 @@ class Game implements SM\ServiceLocatorAwareInterface {
 			->setMethod("DELETE");
 		
 		$response = $api->send();
-		if(!$response->isOk())
+		if(!$response->isSuccess())
 			return false;
 		
 		return true;
+	}
+	
+	public function getDecks() {
+		$api = $this->getHttpClient();
+		$api->setUri($api->getUri()."/decks");
+		
+		$response = $api->send();
+		if(!$response->isSuccess())
+			return false;
+		
+		return json_decode($response->getBody());
 	}
 	
 	public function getHttpClient() {

@@ -127,11 +127,11 @@ class Games extends AbstractActionController {
 		$form->bind(new Entity\Game);
 		
 		$decks = array();
-		/*if($cardService = $this->serviceLocator->get('edpcardsclient_cardservice')) {
-			foreach($cardService->getDecks() as $deck) {
-				$decks[$deck->id] = $deck->name;
+		if($gameService = $this->serviceLocator->get('edpcardsclient_gameservice')) {
+			foreach($gameService->getDecks() as $deck) {
+				$decks[$deck->id] = $deck->description;
 			}
-		}*/
+		}
 		
 		$form->get('fields')->get('decks')->setValueOptions($decks);
 		

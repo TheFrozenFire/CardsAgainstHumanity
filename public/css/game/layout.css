@@ -5,6 +5,53 @@
 	margin: 0px;
 }
 
+.game-controls form,
+.game-controls form fieldset {
+	float: left;
+	height: 100%;
+}
+.game-controls form:after {
+	clear: both;
+	content: ".";
+	display: block;
+	height: 0;
+	visibility: hidden;
+	font-size: 0;
+}
+.game-controls form fieldset {
+	width: 80%;
+}
+.game-controls form fieldset .field label {
+	display: block;
+	float: left;
+	width: 20%;
+}
+.game-controls form fieldset .field input,
+.game-controls form fieldset .field select {
+	display: block;
+	float: left;
+	margin-left: 5%;
+	width: 75%;
+	height: 100%;
+}
+.game-controls form fieldset .field input {
+	padding: 5px;
+}
+.game-controls form .actions {
+	float: right;
+	width: 19%;
+	height: 100%;
+	margin-left: 1%;
+}
+.game-controls form .actions input[type=submit],
+.game-controls form .actions button {
+	height: 100%;
+}
+
+.game-controls #create-game fieldset .field {
+	height: 50%;
+}
+
 .game-list {
 	width: 100%;
 	height: 90%;

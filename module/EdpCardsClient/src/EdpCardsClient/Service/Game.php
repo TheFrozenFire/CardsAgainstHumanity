@@ -35,6 +35,19 @@ class Game implements SM\ServiceLocatorAwareInterface {
 		return $this->getGameMapper()->delete($id);
 	}
 	
+	public function getDecks() {
+		$decks = $this->getGameMapper()->getDecks();
+		if(!$decks)
+			return false;
+		
+		foreach($decks as &$deck) {
+			if(!$deck->description)
+				$deck->description = $deck->id;
+		}
+		
+		return $decks;
+	}
+	
 	public function getGameMapper() {
 		if(!$this->gameMapper) {
 			$this->gameMapper = $this->getServiceLocator()->get('edpcardsclient_gamemapper');
