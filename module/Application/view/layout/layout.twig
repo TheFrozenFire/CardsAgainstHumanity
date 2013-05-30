@@ -34,7 +34,7 @@
 						{{ form().openTag(loginForm)|raw }}
 							{% block backurl %}<input type="hidden" name="backurl" value="{{ url('games') }}">{% endblock backurl %}
 							<fieldset>
-								{% for field in loginForm.get('fields') %}
+								{% for field in loginForm %}
 									<div class="field">
 										{{ formRow(field) }}
 									</div>

@@ -21,8 +21,8 @@ class Game implements SM\ServiceLocatorAwareInterface {
 		return $this->getGameMapper()->get($id);
 	}
 	
-	public function create(Entity\Game $game) {
-		return $this->getGameMapper()->create($game);
+	public function create(Entity\Game $game, Entity\Player $player) {
+		return $this->getGameMapper()->create($game, $player);
 	}
 	
 	public function update(Entity\Game $game) {

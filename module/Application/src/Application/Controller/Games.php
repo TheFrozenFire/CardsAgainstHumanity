@@ -42,7 +42,7 @@ class Games extends AbstractActionController {
 		$data = $this->getRequest()->getPost();
 		
 		$form = $this->getLoginForm();
-		$form->setData($data["fields"]);
+		$form->setData($data);
 		
 		if($form->isValid()) {
 			$player = $form->getData();
@@ -66,7 +66,7 @@ class Games extends AbstractActionController {
 		$data = $this->getRequest()->getPost();
 		
 		$form = $this->getCreateGameForm();
-		$form->setData($data["fields"]);
+		$form->setData($data);
 		
 		$player = $this->getPlayer();
 		
@@ -133,7 +133,7 @@ class Games extends AbstractActionController {
 			}
 		}
 		
-		$form->get('fields')->get('decks')->setValueOptions($decks);
+		$form->get('decks')->setValueOptions($decks);
 		
 		return $form;
 	}

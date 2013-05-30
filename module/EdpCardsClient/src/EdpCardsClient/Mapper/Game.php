@@ -4,6 +4,7 @@ namespace EdpCardsClient\Mapper;
 use Zend\ServiceManager as SM;
 use Zend\EventManager as EM;
 use Zend\Http;
+use Zend\Stdlib\Hydrator\Filter;
 
 use EdpCards\Entity;
 
@@ -121,7 +122,9 @@ class Game implements SM\ServiceLocatorAwareInterface {
 			$this->httpClient->setUri($this->httpClient->getUri().'games/');
 		}
 		
-		return clone $this->httpClient;
+		$client = clone $this->httpClient;
+		$client->setRequest(clone $client->getRequest());
+		return $client;
 	}
 	
 	public function setHttpClient(\Zend\Http\Client $client) {
@@ -130,9 +133,9 @@ class Game implements SM\ServiceLocatorAwareInterface {
 	
 	public function getHydrator() {
 		$hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
-		$hydrator->addFilter('getId', new MethodMatchFilter('getId'), FilterComposite::CONDITION_AND);
-		$hydrator->addFilter('getPlayers', new MethodMatchFilter('getPlayers'), FilterComposite::CONDITION_AND);
-		$hydrator->addFilter('getPlayerCount', new MethodMatchFilter('getPlayerCount'), FilterComposite::CONDITION_AND);
+		$hydrator->addFilter('getId', new Filter\MethodMatchFilter('getId'), Filter\FilterComposite::CONDITION_AND);
+		$hydrator->addFilter('getPlayers', new Filter\MethodMatchFilter('getPlayers'), Filter\FilterComposite::CONDITION_AND);
+		$hydrator->addFilter('getPlayerCount', new Filter\MethodMatchFilter('getPlayerCount'), Filter\FilterComposite::CONDITION_AND);
 		
 		return $hydrator;
 	}

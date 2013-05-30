@@ -19,8 +19,6 @@ class Player implements SM\ServiceLocatorAwareInterface {
 		
 		if(!$players)
 			return false;
-		elseif(!is_array($players))
-			$players = array($players);
 		
 		$list = array();
 		
@@ -45,7 +43,7 @@ class Player implements SM\ServiceLocatorAwareInterface {
 		$hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
 		
 		$player = json_decode($response->getBody(), true);
-		$player = $hydrator->hydrate($player[0], new Entity\Player);
+		$player = $hydrator->hydrate($player, new Entity\Player);
 		
 		return $player;
 	}
@@ -103,7 +101,9 @@ class Player implements SM\ServiceLocatorAwareInterface {
 			$this->httpClient->setUri($this->httpClient->getUri().'players/');
 		}
 		
-		return clone $this->httpClient;
+		$client = clone $this->httpClient;
+		$client->setRequest(clone $client->getRequest());
+		return $client;
 	}
 	
 	public function setHttpClient(\Zend\Http\Client $client) {

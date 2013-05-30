@@ -9,19 +9,21 @@
 
 {% block content %}
 	<div class="game-controls">
-		{% set createGameForm = createGameForm.prepare().setAttribute('method', 'post').setAttribute('action', url('games/create')).setAttribute('id', 'create-game') %}
-		{{ form().openTag(createGameForm)|raw }}
-			<fieldset>
-				{% for field in createGameForm.get('fields') %}
-					<div class="field" id="{{ createGameForm.getAttribute('id') }}_{{ field.getAttribute('id') }}">
-						{{ formRow(field) }}
-					</div>
-				{% endfor %}
-			</fieldset>
-			<div class="actions">
-				<button type="submit">Create Game</button>
-			</div>
-		{{ form().closeTag()|raw }}
+		{% if player %}
+			{% set createGameForm = createGameForm.prepare().setAttribute('method', 'post').setAttribute('action', url('games/create')).setAttribute('id', 'create-game') %}
+			{{ form().openTag(createGameForm)|raw }}
+				<fieldset>
+					{% for field in createGameForm %}
+						<div class="field" id="{{ createGameForm.getAttribute('id') }}_{{ field.getAttribute('id') }}">
+							{{ formRow(field) }}
+						</div>
+					{% endfor %}
+				</fieldset>
+				<div class="actions">
+					<button type="submit">Create Game</button>
+				</div>
+			{{ form().closeTag()|raw }}
+		{% endif %}
 	</div>
 	{% if games|length > 0 %}
 		<ul class="game-list">
