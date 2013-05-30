@@ -31,7 +31,7 @@
 				<li data-game-id="{{ game.id }}">
 					<a href="{{ url("games") }}/game/{{ game.id }}"></a>
 					<div class="name">{{ game.name }}</div>
-					<div class="players">Players: {{ game.players }}</div>
+					<div class="players">Players: {{ game.playerCount }}</div>
 				</li>
 			{% endfor %}
 		</ul>

@@ -78,7 +78,7 @@ class Player implements SM\ServiceLocatorAwareInterface {
 			return false;
 		
 		$player = json_decode($response->getBody(), true);
-		$player = $hydrator->hydrate($player[0], new Entity\Player);
+		$player = $hydrator->hydrate($player, new Entity\Player);
 		
 		return $player;
 	}

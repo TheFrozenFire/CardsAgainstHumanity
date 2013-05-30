@@ -47,7 +47,7 @@ class Game implements SM\ServiceLocatorAwareInterface {
 		$hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
 		
 		$game = json_decode($response->getBody(), true);
-		$game = $hydrator->hydrate($game[0], new Entity\Game);
+		$game = $hydrator->hydrate($game, new Entity\Game);
 		
 		return $game;
 	}
@@ -70,7 +70,7 @@ class Game implements SM\ServiceLocatorAwareInterface {
 			return false;
 		
 		$game = json_decode($response->getBody(), true);
-		$game = $hydrator->hydrate($game[0], new Entity\Game);
+		$game = $hydrator->hydrate($game, new Entity\Game);
 		
 		return $game;
 	}
@@ -88,7 +88,7 @@ class Game implements SM\ServiceLocatorAwareInterface {
 			return false;
 		
 		$game = json_decode($response->getBody(), true);
-		$game = $hydrator->hydrate($game[0], new Entity\Game);
+		$game = $hydrator->hydrate($game, new Entity\Game);
 		
 		return $game;
 	}
